@@ -8,9 +8,9 @@ import os
 DESTINATION_ADDR = "239.255.0.11"
 SOURCE_IP_ADDR   = "172.17.28.99"
 SOURCE_PORT      = "31000"
-WINDOW_SIZE      = "400x300"
+WINDOW_SIZE      = "500x300"
 PADX             = 15
-PBAR_LENGTH      = 400
+PBAR_LENGTH      = 500
 
 # Function to change the source IP address for a given destination address
 def change_source_ip(pkt, source_port, source_ip, destination_ip):
@@ -52,13 +52,11 @@ def modify_packets():
         result_label.config(text="Invalid source IP address. Please enter a valid IPv4 address.")
         return
 
-    # Ensure the multicast IP is a valid IPv4 multicast address
+    # Ensure the destination IP is a valid IPv4 address
     try:
         ipaddress.ip_address(destination_ip)
-        if not ipaddress.ip_address(destination_ip).is_multicast:
-            raise ValueError("Not a multicast address")
     except ValueError:
-        result_label.config(text="Invalid multicast IP address. Please enter a valid IPv4 multicast address.")
+        result_label.config(text="Invalid destination IP address. Please enter a valid IPv4 address.")
         return
 
     packets = rdpcap(input_file)
@@ -73,7 +71,7 @@ def modify_packets():
     # Initialize variables to keep track of the previous packet's data
     prev_packet_data = None
 
-    # Process each packet and change the source IP if it's multicast traffic
+    # Process each packet and change the source IP if it matches the destination IP address
     for i, packet in enumerate(packets):
         # Serialize the packet to compare its data
         current_packet_data = bytes(packet)
