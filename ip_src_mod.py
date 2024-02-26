@@ -18,8 +18,9 @@ def change_source_ip(pkt, source_port, source_ip, destination_ip):
     if IP in pkt and pkt[IP].dst == destination_ip:
         if UDP in pkt:
             pkt[UDP].sport = int(source_port)
+            del pkt[UDP].checksum # Recalculate the UDP checksum
         pkt[IP].src = source_ip
-        del pkt[IP].chksum  # Recalculate the checksum
+        del pkt[IP].chksum  # Recalculate the IP checksum
         pkt_changed = True
     return pkt, pkt_changed
 
