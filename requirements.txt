@@ -1,0 +1,4 @@
+# requirements.txt
+# Project dependencies auto-detected from ip_src_mod.py
+scapy
+# tkinter is part of the Python standard library (no need to install)
